@@ -3,36 +3,18 @@ import logo from './logo.svg'
 import './App.css'
 
 class App extends Component {
+  state = {
+    email: '',
+    ticketType: '',
+    agreeTerms: false,
+    addFood: false
+  }
   render() {
+    const { email, ticketType, agreeTerms, addFood } = this.state
     return (
       <section className="section">
         <div className="container">
-          <div className="field">
-            <label className="label">Name</label>
-            <div className="control">
-              <input className="input" type="text" placeholder="Text input" />
-            </div>
-          </div>
-
-          <div className="field">
-            <label className="label">Username</label>
-            <div className="control has-icons-left has-icons-right">
-              <input
-                className="input is-success"
-                type="text"
-                placeholder="Text input"
-                value="bulma"
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-user" />
-              </span>
-              <span className="icon is-small is-right">
-                <i className="fas fa-check" />
-              </span>
-            </div>
-            <p className="help is-success">This username is available</p>
-          </div>
-
+          <h1 className="title">Evenn Registration Form</h1>
           <div className="field">
             <label className="label">Email</label>
             <div className="control has-icons-left has-icons-right">
@@ -40,7 +22,8 @@ class App extends Component {
                 className="input is-danger"
                 type="email"
                 placeholder="Email input"
-                value="hello@"
+                value={email}
+                onChange={e => this.setState({ email: e.target.value })}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-envelope" />
@@ -53,41 +36,52 @@ class App extends Component {
           </div>
 
           <div className="field">
-            <label className="label">Subject</label>
+            <label className="label">Ticket Type</label>
             <div className="control">
               <div className="select">
-                <select>
-                  <option>Select dropdown</option>
-                  <option>With options</option>
+                <select
+                  onChange={e => this.setState({ ticketType: e.target.value })}
+                >
+                  <option value="">Select dropdown</option>
+                  <option value="regular">Regular (150 THB)</option>
+                  <option value="premium">Premium (300 THB)</option>
                 </select>
               </div>
             </div>
           </div>
 
           <div className="field">
-            <label className="label">Message</label>
-            <div className="control">
-              <textarea className="textarea" placeholder="Textarea" />
-            </div>
-          </div>
-
-          <div className="field">
             <div className="control">
               <label className="checkbox">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={agreeTerms}
+                  onClick={e => this.setState({ agreeTerms: e.target.checked })}
+                />{' '}
                 I agree to the <a href="#">terms and conditions</a>
               </label>
             </div>
           </div>
 
           <div className="field">
+            <label className="label">Add food</label>
             <div className="control">
               <label className="radio">
-                <input type="radio" name="question" />
-                Yes
+                <input
+                  type="radio"
+                  name="question"
+                  onChange={() => this.setState({ addFood: true })}
+                  checked={addFood}
+                />{' '}
+                Yes (+50 THB)
               </label>
               <label className="radio">
-                <input type="radio" name="question" />
+                <input
+                  type="radio"
+                  name="question"
+                  onChange={() => this.setState({ addFood: false })}
+                  checked={!addFood}
+                />{' '}
                 No
               </label>
             </div>
