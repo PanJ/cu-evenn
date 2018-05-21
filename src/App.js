@@ -8,7 +8,8 @@ import {
   setTicketType,
   setAgreeTerms,
   setAddFood,
-  setCountdown
+  setCountdown,
+  submit
 } from './redux'
 import { connect } from 'react-redux'
 const targetTime = moment('2018-05-21 17:00:00')
@@ -30,7 +31,15 @@ class App extends Component {
     clearInterval(this.interval)
   }
   render() {
-    const { email, ticketType, agreeTerms, addFood, countdown } = this.props
+    const {
+      email,
+      ticketType,
+      agreeTerms,
+      addFood,
+      countdown,
+      loading,
+      data
+    } = this.props
     return (
       <section className="section">
         <div className="container">
@@ -119,12 +128,19 @@ class App extends Component {
 
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-link">Submit</button>
+              <button
+                disabled={loading}
+                className="button is-link"
+                onClick={() => this.props.submit()}
+              >
+                Submit
+              </button>
             </div>
             <div className="control">
               <button className="button is-text">Cancel</button>
             </div>
           </div>
+          <p>{data}</p>
         </div>
       </section>
     )
@@ -136,7 +152,9 @@ const mapStateToProps = state => ({
   ticketType: state.ticketType,
   agreeTerms: state.agreeTerms,
   addFood: state.addFood,
-  countdown: state.countdown
+  countdown: state.countdown,
+  loading: state.loading,
+  data: state.data
 })
 // const mapDispatchToProps = dispatch => ({
 //   setEmail: value => dispatch(setEmail(value))
@@ -146,6 +164,7 @@ const mapDispatchToProps = {
   setTicketType,
   setAddFood,
   setAgreeTerms,
-  setCountdown
+  setCountdown,
+  submit
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)
