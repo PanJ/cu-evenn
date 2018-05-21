@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import moment from 'moment'
+import { setEmail } from './redux'
+import { connect } from 'react-redux'
 const targetTime = moment('2018-05-21 17:00:00')
 class App extends Component {
   state = {
@@ -28,7 +30,7 @@ class App extends Component {
     clearInterval(this.interval)
   }
   render() {
-    const { email, ticketType, agreeTerms, addFood, countdown } = this.state
+    const { email, ticketType, agreeTerms, addFood, countdown } = this.props
     return (
       <section className="section">
         <div className="container">
@@ -42,7 +44,7 @@ class App extends Component {
                 type="email"
                 placeholder="Email input"
                 value={email}
-                onChange={e => this.setState({ email: e.target.value })}
+                onChange={e => this.props.setEmail(e.target.value)}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-envelope" />
@@ -121,4 +123,13 @@ class App extends Component {
   }
 }
 
-export default App
+const mapStateToProps = state => ({
+  email: state.email
+})
+// const mapDispatchToProps = dispatch => ({
+//   setEmail: value => dispatch(setEmail(value))
+// })
+const mapDispatchToProps = {
+  setEmail
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App)
