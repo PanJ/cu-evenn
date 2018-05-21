@@ -2,26 +2,25 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import moment from 'moment'
-import { setEmail } from './redux'
+import {
+  setEmail,
+  setTicketType,
+  setAgreeTerms,
+  setAddFood,
+  setCountdown
+} from './redux'
 import { connect } from 'react-redux'
 const targetTime = moment('2018-05-21 17:00:00')
 class App extends Component {
-  state = {
-    email: '',
-    ticketType: '',
-    agreeTerms: false,
-    addFood: false,
-    countdown: ''
-  }
   componentDidMount() {
     const updateCountdown = () => {
       const millis = targetTime.diff(moment())
       const duration = moment.duration(millis)
-      this.setState({
-        countdown: `${Math.floor(
+      this.props.setCountdown(
+        `${Math.floor(
           duration.asHours()
         )} hours ${duration.minutes()} minutes ${duration.seconds()} seconds`
-      })
+      )
     }
     this.interval = setInterval(updateCountdown, 1000)
     updateCountdown()
@@ -62,7 +61,7 @@ class App extends Component {
               <div className="select">
                 <select
                   value={ticketType}
-                  onChange={e => this.setState({ ticketType: e.target.value })}
+                  onChange={e => this.props.setTicketType(e.target.value)}
                 >
                   <option value="">Select dropdown</option>
                   <option value="regular">Regular (150 THB)</option>
@@ -78,7 +77,7 @@ class App extends Component {
                 <input
                   type="checkbox"
                   checked={agreeTerms}
-                  onClick={e => this.setState({ agreeTerms: e.target.checked })}
+                  onClick={e => this.props.setAgreeTerms(e.target.checked)}
                 />{' '}
                 I agree to the <a href="#">terms and conditions</a>
               </label>
@@ -92,7 +91,7 @@ class App extends Component {
                 <input
                   type="radio"
                   name="question"
-                  onChange={() => this.setState({ addFood: true })}
+                  onChange={() => this.props.setAddFood(true)}
                   checked={addFood}
                 />{' '}
                 Yes (+50 THB)
@@ -101,7 +100,7 @@ class App extends Component {
                 <input
                   type="radio"
                   name="question"
-                  onChange={() => this.setState({ addFood: false })}
+                  onChange={() => this.props.setAddFood(false)}
                   checked={!addFood}
                 />{' '}
                 No
@@ -124,12 +123,20 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  email: state.email
+  email: state.email,
+  ticketType: state.ticketType,
+  agreeTerms: state.agreeTerms,
+  addFood: state.addFood,
+  countdown: state.countdown
 })
 // const mapDispatchToProps = dispatch => ({
 //   setEmail: value => dispatch(setEmail(value))
 // })
 const mapDispatchToProps = {
-  setEmail
+  setEmail,
+  setTicketType,
+  setAddFood,
+  setAgreeTerms,
+  setCountdown
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)
