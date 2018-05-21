@@ -5,7 +5,7 @@ export default ({ title, placeholder, icon, value, onChange, error }) => (
     <label className="label">{title}</label>
     <div className="control has-icons-left has-icons-right">
       <input
-        className="input is-danger"
+        className={`input ${error ? 'is-danger' : ''}`}
         type="email"
         placeholder={placeholder}
         value={value}
