@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import moment from 'moment'
+import Input from './Input'
 import {
   setEmail,
   setTicketType,
@@ -16,11 +17,11 @@ class App extends Component {
     const updateCountdown = () => {
       const millis = targetTime.diff(moment())
       const duration = moment.duration(millis)
-      this.props.setCountdown(
-        `${Math.floor(
-          duration.asHours()
-        )} hours ${duration.minutes()} minutes ${duration.seconds()} seconds`
-      )
+      // this.props.setCountdown(
+      //   `${Math.floor(
+      //     duration.asHours()
+      //   )} hours ${duration.minutes()} minutes ${duration.seconds()} seconds`
+      // )
     }
     this.interval = setInterval(updateCountdown, 1000)
     updateCountdown()
@@ -35,6 +36,14 @@ class App extends Component {
         <div className="container">
           <h1 className="title">Evenn Registration Form</h1>
           <p>Registration will be closed in {countdown}</p>
+          <Input
+            title="Email"
+            placeholder="Email input"
+            icon="fa-envelope"
+            value={email}
+            onChange={value => this.props.setEmail(value)}
+            error="This email is invalid"
+          />
           <div className="field">
             <label className="label">Email</label>
             <div className="control has-icons-left has-icons-right">
