@@ -40,6 +40,7 @@ class App extends Component {
             <div className="control">
               <div className="select">
                 <select
+                  value={ticketType}
                   onChange={e => this.setState({ ticketType: e.target.value })}
                 >
                   <option value="">Select dropdown</option>
